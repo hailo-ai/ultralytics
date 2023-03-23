@@ -9,8 +9,8 @@ Pillow>=7.1.2
 PyYAML>=5.3.1
 requests>=2.23.0
 scipy>=1.4.1
-torch>=1.7.0
-torchvision>=0.8.1
+torch==2.0.0
+torchvision==0.15.1
 tqdm>=4.64.0
 
 # Logging -------------------------------------
@@ -24,8 +24,8 @@ seaborn>=0.11.0
 
 # Export --------------------------------------
 # coremltools>=6.0  # CoreML export
-# onnx>=1.12.0  # ONNX export
-# onnxsim>=0.4.1  # ONNX simplifier
+onnx==1.12.0  # ONNX export
+onnxsim==0.4.13  # ONNX simplifier
 # nvidia-pyindex  # TensorRT export
 # nvidia-tensorrt  # TensorRT export
 # scikit-learn==0.19.2  # CoreML quantization
