@@ -1,3 +1,5 @@
+<img width="1024" src="https://github.com/ultralytics/assets/raw/main/yolov8/banner-integrations.png">
+
 Object tracking is a task that involves identifying the location and class of objects, then assigning a unique ID to
 that detection in video streams.
 
@@ -24,9 +26,9 @@ Use a trained YOLOv8n/YOLOv8n-seg model to run tracker on video streams.
         from ultralytics import YOLO
         
         # Load a model
-        model = YOLO("yolov8n.pt")  # load an official detection model
-        model = YOLO("yolov8n-seg.pt")  # load an official segmentation model
-        model = YOLO("path/to/best.pt")  # load a custom model
+        model = YOLO('yolov8n.pt')  # load an official detection model
+        model = YOLO('yolov8n-seg.pt')  # load an official segmentation model
+        model = YOLO('path/to/best.pt')  # load a custom model
         
         # Track with the model
         results = model.track(source="https://youtu.be/Zgi9g1ksQHc", show=True) 
@@ -50,7 +52,7 @@ do is loading the corresponding (detection or segmentation) model.
 ### Tracking
 
 Tracking shares the configuration with predict, i.e `conf`, `iou`, `show`. More configurations please refer
-to [predict page](https://docs.ultralytics.com/cfg/#prediction).
+to [predict page](https://docs.ultralytics.com/modes/predict/).
 !!! example ""
 
     === "Python"
@@ -58,7 +60,7 @@ to [predict page](https://docs.ultralytics.com/cfg/#prediction).
         ```python
         from ultralytics import YOLO
         
-        model = YOLO("yolov8n.pt")
+        model = YOLO('yolov8n.pt')
         results = model.track(source="https://youtu.be/Zgi9g1ksQHc", conf=0.3, iou=0.5, show=True) 
         ```
     === "CLI"
@@ -80,16 +82,15 @@ any configurations(expect the `tracker_type`) you need to.
         ```python
         from ultralytics import YOLO
         
-        model = YOLO("yolov8n.pt")
+        model = YOLO('yolov8n.pt')
         results = model.track(source="https://youtu.be/Zgi9g1ksQHc", tracker='custom_tracker.yaml') 
         ```
     === "CLI"
     
         ```bash
         yolo track model=yolov8n.pt source="https://youtu.be/Zgi9g1ksQHc" tracker='custom_tracker.yaml'
-
         ```
 
 Please refer to [ultralytics/tracker/cfg](https://github.com/ultralytics/ultralytics/tree/main/ultralytics/tracker/cfg)
-page. 
+page
 

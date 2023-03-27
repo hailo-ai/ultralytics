@@ -28,7 +28,7 @@ SOTA 模型。它在以前成功的 YOLO 版本基础上，引入了新的功能
     <a href="https://github.com/ultralytics" style="text-decoration:none;">
       <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-github.png" width="2%" alt="" /></a>
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="2%" alt="" />
-    <a href="https://www.linkedin.com/company/ultralytics" style="text-decoration:none;">
+    <a href="https://www.linkedin.com/company/ultralytics/" style="text-decoration:none;">
       <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-linkedin.png" width="2%" alt="" /></a>
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="2%" alt="" />
     <a href="https://twitter.com/ultralytics" style="text-decoration:none;">
@@ -71,11 +71,11 @@ pip install ultralytics
 YOLOv8 可以直接在命令行界面（CLI）中使用 `yolo` 命令运行：
 
 ```bash
-yolo predict model=yolov8n.pt source="https://ultralytics.com/images/bus.jpg"
+yolo predict model=yolov8n.pt source='https://ultralytics.com/images/bus.jpg'
 ```
 
 `yolo`可以用于各种任务和模式，并接受额外的参数，例如 `imgsz=640`。参见 YOLOv8 [文档](https://docs.ultralytics.com)
-中可用`yolo`[参数](https://docs.ultralytics.com/cfg/)的完整列表。
+中可用`yolo`[参数](https://docs.ultralytics.com/usage/cfg/)的完整列表。
 
 ```bash
 yolo task=detect    mode=train    model=yolov8n.pt        args...
@@ -84,7 +84,7 @@ yolo task=detect    mode=train    model=yolov8n.pt        args...
                          export         yolov8n.pt        format=onnx  args...
 ```
 
-YOLOv8 也可以在 Python 环境中直接使用，并接受与上面 CLI 例子中相同的[参数](https://docs.ultralytics.com/cfg/)：
+YOLOv8 也可以在 Python 环境中直接使用，并接受与上面 CLI 例子中相同的[参数](https://docs.ultralytics.com/usage/cfg/)：
 
 ```python
 from ultralytics import YOLO
@@ -219,7 +219,7 @@ Ultralytics [发布页](https://github.com/ultralytics/ultralytics/releases) 自
 <!-- SVG image from https://opencollective.com/ultralytics/contributors.svg?width=990 -->
 
 <a href="https://github.com/ultralytics/yolov5/graphs/contributors">
-<img src="https://github.com/ultralytics/assets/raw/main/im/image-contributors.png" /></a>
+<img width="100%" src="https://github.com/ultralytics/assets/raw/main/im/image-contributors.png"></a>
 
 ## <div align="center">License</div>
 
@@ -232,14 +232,14 @@ YOLOv8 在两种不同的 License 下可用：
 ## <div align="center">联系我们</div>
 
 请访问 [GitHub Issues](https://github.com/ultralytics/ultralytics/issues)
-或 [Ultralytics Community Forum](https://community.ultralytis.com) 以报告 YOLOv8 错误和请求功能。
+或 [Ultralytics Community Forum](https://community.ultralytics.com) 以报告 YOLOv8 错误和请求功能。
 
 <br>
 <div align="center">
   <a href="https://github.com/ultralytics" style="text-decoration:none;">
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-github.png" width="3%" alt="" /></a>
   <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="" />
-  <a href="https://www.linkedin.com/company/ultralytics" style="text-decoration:none;">
+  <a href="https://www.linkedin.com/company/ultralytics/" style="text-decoration:none;">
     <img src="https://github.com/ultralytics/assets/raw/main/social/logo-social-linkedin.png" width="3%" alt="" /></a>
   <img src="https://github.com/ultralytics/assets/raw/main/social/logo-transparent.png" width="3%" alt="" />
   <a href="https://twitter.com/ultralytics" style="text-decoration:none;">

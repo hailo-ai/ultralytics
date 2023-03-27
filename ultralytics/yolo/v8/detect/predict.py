@@ -30,8 +30,8 @@ class DetectionPredictor(BasePredictor):
         results = []
         for i, pred in enumerate(preds):
             orig_img = orig_imgs[i] if isinstance(orig_imgs, list) else orig_imgs
-            shape = orig_img.shape
-            pred[:, :4] = ops.scale_boxes(img.shape[2:], pred[:, :4], shape).round()
+            if not isinstance(orig_imgs, torch.Tensor):
+                pred[:, :4] = ops.scale_boxes(img.shape[2:], pred[:, :4], orig_img.shape)
             path, _, _, _, _ = self.batch
             img_path = path[i] if isinstance(path, list) else path
             results.append(Results(orig_img=orig_img, path=img_path, names=self.model.names, boxes=pred))
@@ -63,21 +63,19 @@ class DetectionPredictor(BasePredictor):
 
         # write
         for d in reversed(det):
-            cls, conf = d.cls.squeeze(), d.conf.squeeze()
+            c, conf, id = int(d.cls), float(d.conf), None if d.id is None else int(d.id.item())
             if self.args.save_txt:  # Write to file
-                line = (cls, *(d.xywhn.view(-1).tolist()), conf) \
-                    if self.args.save_conf else (cls, *(d.xywhn.view(-1).tolist()))  # label format
+                line = (c, *d.xywhn.view(-1)) + (conf, ) * self.args.save_conf + (() if id is None else (id, ))
                 with open(f'{self.txt_path}.txt', 'a') as f:
                     f.write(('%g ' * len(line)).rstrip() % line + '\n')
-            if self.args.save or self.args.save_crop or self.args.show:  # Add bbox to image
-                c = int(cls)  # integer class
-                name = f'id:{int(d.id.item())} {self.model.names[c]}' if d.id is not None else self.model.names[c]
+            if self.args.save or self.args.show:  # Add bbox to image
+                name = ('' if id is None else f'id:{id} ') + self.model.names[c]
                 label = None if self.args.hide_labels else (name if self.args.hide_conf else f'{name} {conf:.2f}')
                 self.annotator.box_label(d.xyxy.squeeze(), label, color=colors(c, True))
             if self.args.save_crop:
                 save_one_box(d.xyxy,
                              imc,
-                             file=self.save_dir / 'crops' / self.model.model.names[c] / f'{self.data_path.stem}.jpg',
+                             file=self.save_dir / 'crops' / self.model.names[c] / f'{self.data_path.stem}.jpg',
                              BGR=True)
 
         return log_string

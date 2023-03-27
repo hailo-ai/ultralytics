@@ -2,7 +2,7 @@
 """
 Ultralytics Results, Boxes and Masks classes for handling inference results
 
-Usage: See https://docs.ultralytics.com/predict/
+Usage: See https://docs.ultralytics.com/modes/predict/
 """
 
 import pprint
@@ -48,7 +48,7 @@ class Results:
         self.probs = probs if probs is not None else None
         self.names = names
         self.path = path
-        self._keys = (k for k in ('boxes', 'masks', 'probs') if getattr(self, k) is not None)
+        self._keys = ('boxes', 'masks', 'probs')
 
     def pandas(self):
         pass
@@ -56,7 +56,7 @@ class Results:
 
     def __getitem__(self, idx):
         r = Results(orig_img=self.orig_img, path=self.path, names=self.names)
-        for k in self._keys:
+        for k in self.keys:
             setattr(r, k, getattr(self, k)[idx])
         return r
 
@@ -70,30 +70,30 @@ class Results:
 
     def cpu(self):
         r = Results(orig_img=self.orig_img, path=self.path, names=self.names)
-        for k in self._keys:
+        for k in self.keys:
             setattr(r, k, getattr(self, k).cpu())
         return r
 
     def numpy(self):
         r = Results(orig_img=self.orig_img, path=self.path, names=self.names)
-        for k in self._keys:
+        for k in self.keys:
             setattr(r, k, getattr(self, k).numpy())
         return r
 
     def cuda(self):
         r = Results(orig_img=self.orig_img, path=self.path, names=self.names)
-        for k in self._keys:
+        for k in self.keys:
             setattr(r, k, getattr(self, k).cuda())
         return r
 
     def to(self, *args, **kwargs):
         r = Results(orig_img=self.orig_img, path=self.path, names=self.names)
-        for k in self._keys:
+        for k in self.keys:
             setattr(r, k, getattr(self, k).to(*args, **kwargs))
         return r
 
     def __len__(self):
-        for k in self._keys:
+        for k in self.keys:
             return len(getattr(self, k))
 
     def __str__(self):
@@ -106,6 +106,10 @@ class Results:
     def __getattr__(self, attr):
         name = self.__class__.__name__
         raise AttributeError(f"'{name}' object has no attribute '{attr}'. See valid attributes below.\n{self.__doc__}")
+
+    @property
+    def keys(self):
+        return [k for k in self._keys if getattr(self, k) is not None]
 
     def plot(self, show_conf=True, line_width=None, font_size=None, font='Arial.ttf', pil=False, example='abc'):
         """
@@ -122,8 +126,7 @@ class Results:
         Returns:
             (None) or (PIL.Image): If `pil` is True, a PIL Image is returned. Otherwise, nothing is returned.
         """
-        img = deepcopy(self.orig_img)
-        annotator = Annotator(img, line_width, font_size, font, pil, example)
+        annotator = Annotator(deepcopy(self.orig_img), line_width, font_size, font, pil, example)
         boxes = self.boxes
         masks = self.masks
         logits = self.probs
@@ -136,7 +139,7 @@ class Results:
                 annotator.box_label(d.xyxy.squeeze(), label, color=colors(c, True))
 
         if masks is not None:
-            im = torch.as_tensor(img, dtype=torch.float16, device=masks.data.device).permute(2, 0, 1).flip(0)
+            im = torch.as_tensor(annotator.im, dtype=torch.float16, device=masks.data.device).permute(2, 0, 1).flip(0)
             im = F.resize(im.contiguous(), masks.data.shape[1:]) / 255
             annotator.masks(masks.data, colors=[colors(x, True) for x in boxes.cls], im_gpu=im)
 
@@ -146,7 +149,7 @@ class Results:
             text = f"{', '.join(f'{names[j] if names else j} {logits[j]:.2f}' for j in top5i)}, "
             annotator.text((32, 32), text, txt_color=(255, 255, 255))  # TODO: allow setting colors
 
-        return img
+        return np.asarray(annotator.im) if annotator.pil else annotator.im
 
 
 class Boxes:
@@ -186,7 +189,7 @@ class Boxes:
         if boxes.ndim == 1:
             boxes = boxes[None, :]
         n = boxes.shape[-1]
-        assert n in {6, 7}, f'expected `n` in [6, 7], but got {n}'  # xyxy, (track_id), conf, cls
+        assert n in (6, 7), f'expected `n` in [6, 7], but got {n}'  # xyxy, (track_id), conf, cls
         # TODO
         self.is_track = n == 7
         self.boxes = boxes

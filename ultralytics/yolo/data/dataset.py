@@ -17,7 +17,7 @@ from .utils import HELP_URL, LOCAL_RANK, LOGGER, get_hash, img2label_paths, veri
 
 
 class YOLODataset(BaseDataset):
-    cache_version = '1.0.1'  # dataset labels *.cache version, >= 1.0.0 for YOLOv8
+    cache_version = '1.0.2'  # dataset labels *.cache version, >= 1.0.0 for YOLOv8
     rand_interp_methods = [cv2.INTER_NEAREST, cv2.INTER_LINEAR, cv2.INTER_CUBIC, cv2.INTER_AREA, cv2.INTER_LANCZOS4]
     """
     Dataset class for loading images object detection and/or segmentation labels in YOLO format.
@@ -133,7 +133,7 @@ class YOLODataset(BaseDataset):
 
         # Display cache
         nf, nm, ne, nc, n = cache.pop('results')  # found, missing, empty, corrupt, total
-        if exists and LOCAL_RANK in {-1, 0}:
+        if exists and LOCAL_RANK in (-1, 0):
             d = f'Scanning {cache_path}... {nf} images, {nm + ne} backgrounds, {nc} corrupt'
             tqdm(None, desc=self.prefix + d, total=n, initial=n, bar_format=TQDM_BAR_FORMAT)  # display cache results
             if cache['msgs']:

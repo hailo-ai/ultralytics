@@ -2,16 +2,16 @@
 # Usage: pip install -r requirements.txt
 
 # Base ----------------------------------------
-matplotlib>=3.2.2
-numpy>=1.18.5
-opencv-python>=4.6.0
-Pillow>=7.1.2
-PyYAML>=5.3.1
-requests>=2.23.0
-scipy>=1.4.1
-torch>=1.7.0
-torchvision>=0.8.1
-tqdm>=4.64.0
+matplotlib==3.7.1
+numpy==1.24.2
+opencv-python==4.7.0.72
+Pillow==8.1.0
+PyYAML==5.3.1
+requests==2.24.0
+scipy==1.10.1
+torch==2.0.0
+torchvision==0.15.1
+tqdm==4.65.0
 
 # Logging -------------------------------------
 # tensorboard>=2.4.1
@@ -19,13 +19,13 @@ tqdm>=4.64.0
 # comet
 
 # Plotting ------------------------------------
-pandas>=1.1.4
-seaborn>=0.11.0
+pandas==1.5.3
+seaborn==0.12.2
 
 # Export --------------------------------------
 # coremltools>=6.0  # CoreML export
-# onnx>=1.12.0  # ONNX export
-# onnxsim>=0.4.1  # ONNX simplifier
+onnx==1.12.0  # ONNX export
+onnxsim==0.4.13  # ONNX simplifier
 # nvidia-pyindex  # TensorRT export
 # nvidia-tensorrt  # TensorRT export
 # scikit-learn==0.19.2  # CoreML quantization
@@ -35,8 +35,8 @@ seaborn>=0.11.0
 # openvino-dev>=2022.3  # OpenVINO export
 
 # Extras --------------------------------------
-psutil  # system utilization
-thop>=0.1.1  # FLOPs computation
+psutil==5.7.2 # system utilization
+thop==0.1.1.post2209072238  # FLOPs computation
 # ipython  # interactive notebook
 # albumentations>=1.0.3
 # pycocotools>=2.0.6  # COCO mAP

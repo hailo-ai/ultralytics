@@ -17,7 +17,6 @@ from typing import Union
 
 import cv2
 import numpy as np
-import pandas as pd
 import torch
 import yaml
 
@@ -47,14 +46,14 @@ HELP_MSG = \
         from ultralytics import YOLO
 
         # Load a model
-        model = YOLO("yolov8n.yaml")  # build a new model from scratch
+        model = YOLO('yolov8n.yaml')  # build a new model from scratch
         model = YOLO("yolov8n.pt")  # load a pretrained model (recommended for training)
 
         # Use the model
         results = model.train(data="coco128.yaml", epochs=3)  # train the model
         results = model.val()  # evaluate model performance on the validation set
-        results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image
-        success = model.export(format="onnx")  # export the model to ONNX format
+        results = model('https://ultralytics.com/images/bus.jpg')  # predict on an image
+        success = model.export(format='onnx')  # export the model to ONNX format
 
     3. Use the command line interface (CLI):
 
@@ -65,7 +64,7 @@ HELP_MSG = \
             Where   TASK (optional) is one of [detect, segment, classify]
                     MODE (required) is one of [train, val, predict, export]
                     ARGS (optional) are any number of custom 'arg=value' pairs like 'imgsz=320' that override defaults.
-                        See all ARGS at https://docs.ultralytics.com/cfg or with 'yolo cfg'
+                        See all ARGS at https://docs.ultralytics.com/usage/cfg or with 'yolo cfg'
 
         - Train a detection model for 10 epochs with an initial learning_rate of 0.01
             yolo detect train data=coco128.yaml model=yolov8n.pt epochs=10 lr0=0.01
@@ -95,8 +94,6 @@ HELP_MSG = \
 # Settings
 torch.set_printoptions(linewidth=320, precision=5, profile='long')
 np.set_printoptions(linewidth=320, formatter={'float_kind': '{:11.5g}'.format})  # format short g, %precision=5
-pd.options.display.max_columns = 10
-pd.options.display.width = 120
 cv2.setNumThreads(0)  # prevent OpenCV from multithreading (incompatible with PyTorch DataLoader)
 os.environ['NUMEXPR_MAX_THREADS'] = str(NUM_THREADS)  # NumExpr max threads
 os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'  # for deterministic training
@@ -129,7 +126,7 @@ class IterableSimpleNamespace(SimpleNamespace):
 def set_logging(name=LOGGING_NAME, verbose=True):
     # sets up logging for the given name
     rank = int(os.getenv('RANK', -1))  # rank in world for Multi-GPU trainings
-    level = logging.INFO if verbose and rank in {-1, 0} else logging.ERROR
+    level = logging.INFO if verbose and rank in (-1, 0) else logging.ERROR
     logging.config.dictConfig({
         'version': 1,
         'disable_existing_loggers': False,
@@ -527,7 +524,7 @@ def set_sentry():
         return event
 
     if SETTINGS['sync'] and \
-            RANK in {-1, 0} and \
+            RANK in (-1, 0) and \
             Path(sys.argv[0]).name == 'yolo' and \
             not TESTS_RUNNING and \
             ONLINE and \
